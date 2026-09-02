@@ -1,0 +1,14 @@
+[core]
+strictLevel:1
+
+[resource_exp]
+displayName       : 经验值
+displayRoundedDown: true
+
+[resource_selfExtraPrice]
+displayName       : 自身经验加权
+displayRoundedDown: true
+
+[resource_grade]
+displayName       : 等级
+displayRoundedDown: true
