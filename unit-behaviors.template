@@ -10,6 +10,19 @@ buildSpeed:0
 autoTriggerOnEvent   : killedAnyUnit
 addResourcesWithLogic: exp=eventSource.priceCredits()+eventSource.resource.exp*0.5+eventSource.resource.selfExtraPrice
 
+# 精英预备队出厂经验
+[hiddenAction_精英预备队_步兵]
+autoTriggerOnEvent:newMessage(withTag='精英预备队_步兵')
+addResources:exp=500
+
+[hiddenAction_精英预备队_装甲]
+autoTriggerOnEvent:newMessage(withTag='精英预备队_装甲')
+addResources:exp=2000
+
+[hiddenAction_精英预备队_空军]
+autoTriggerOnEvent:newMessage(withTag='精英预备队_空军')
+addResources:exp=1000
+
 [hiddenAction_addGradeTo2]
 buildSpeed:0
 autoTrigger :if (self.resource.grade == 1 and self.resource.exp >= 3*(self.priceCredits()+self.resource.selfExtraPrice))

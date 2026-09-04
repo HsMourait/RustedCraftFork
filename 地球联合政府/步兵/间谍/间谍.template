@@ -1,0 +1,59 @@
+[core]
+price:800
+maxHp:200
+buildSpeed:20s
+autoTriggerCooldownTime:1s
+
+[resource_偷窃计时]
+hidden:true
+
+[resource_离心机计时]
+hidden:true
+
+[hiddenAction_累积偷窃计时]
+autoTrigger:if numberOfUnitsInEnemyTeam(withTag='可被间谍窃取',withinRange=60,greaterThan=0)
+addResources:偷窃计时=1
+
+[hiddenAction_离开经济建筑]
+autoTrigger:if numberOfUnitsInEnemyTeam(withTag='可被间谍窃取',withinRange=60,lessThan=1) and self.resource.偷窃计时>0
+setResourcesWithLogic:偷窃计时=0
+
+[hiddenAction_偷窃资金]
+autoTrigger:if self.resource.偷窃计时>=10
+setResourcesWithLogic:偷窃计时=0
+takeResources_searchOnly:true
+takeResources_includeUnitsWithinRange:60
+takeResources_includeUnitsWithinRange_team:enemy
+takeResources_excludeUnitsWithoutTags:可被间谍窃取
+takeResources_maxUnits:1
+takeResources_triggerActionForEach:执行偷窃
+
+[hiddenAction_执行偷窃]
+requireConditional:if thisActionTarget.resource(type='credits')>0
+addResourcesWithLogic:credits=min(500,thisActionTarget.resource(type='credits'))
+sendMessageTo:thisActionTarget
+sendMessageWithTags:间谍资金扣除
+sendMessageWithData:amount=min(500,thisActionTarget.resource(type='credits'))
+
+[hiddenAction_累积离心机计时]
+autoTrigger:if not self.globalTeamTags(includes='窃取离心机科技') and numberOfUnitsInEnemyTeam(withTag='离心机',withinRange=60,greaterThan=0)
+addResources:离心机计时=1
+
+[hiddenAction_离开离心机]
+autoTrigger:if numberOfUnitsInEnemyTeam(withTag='离心机',withinRange=60,lessThan=1) and self.resource.离心机计时>0
+setResourcesWithLogic:离心机计时=0
+
+[hiddenAction_窃取离心机科技]
+autoTrigger:if self.resource.离心机计时>=10 and not self.globalTeamTags(includes='窃取离心机科技')
+addGlobalTeamTags:窃取离心机科技
+setResourcesWithLogic:离心机计时=0
+showMessageToPlayer:已窃取离心机科技
+
+[movement]
+movementType:LAND
+moveSpeed:0.9
+moveAccelerationSpeed:0.3
+moveDecelerationSpeed:0.05
+maxTurnSpeed:8
+turnAcceleration:10
+reverseSpeedPercentage:0

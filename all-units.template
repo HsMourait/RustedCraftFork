@@ -12,3 +12,8 @@ displayRoundedDown: true
 [resource_grade]
 displayName       : 等级
 displayRoundedDown: true
+
+
+[graphics]
+shadowOffsetX:2
+shadowOffsetY:2
