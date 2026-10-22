@@ -1,0 +1,25 @@
+[action_setFlag24]
+buildSpeed: 0s
+text: 无人机-出击
+description: 单击召回无人机并让无人机整编
+displayType: action
+addResources: setFlag=24
+pos: 1
+price: 0
+isVisible: if not self.hasFlag(id=24)
+
+[action_unsetFlag24]
+@copyFromSection: action_setFlag24
+text: 无人机-整编
+description: 单击让无人机出击
+addResources: unsetFlag=24
+isVisible: if self.hasFlag(id=24)
+
+[action_drone_info]
+buildSpeed: 0s
+text: 无人机信息
+description: 
+displayType: infoOnly
+pos: 2
+price: 0
+isVisible: true

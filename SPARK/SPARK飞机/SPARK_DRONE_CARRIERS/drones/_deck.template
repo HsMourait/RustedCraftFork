@@ -1,0 +1,134 @@
+# 注意:需要使用 ROOT:/shared/NONE.png
+
+[core]
+class: CustomUnitMetadata
+
+price: 0
+maxHp: 1
+disableDeathOnZeroHp: false
+mass: 1
+
+# maxTransportingUnits: need this
+transportUnitsHealBy: 0.1
+transportUnitsKillOnDeath: true
+transportUnitsRequireTag: drone
+transportUnitsBlockAirAndWaterUnits: false
+transportUnitsAddUnloadOption: false
+
+techLevel: 1
+buildSpeed: 0s
+radius: 1
+displayRadius: 1
+disableAllUnitCollisions: false
+isUnselectable: true
+canNotBeDirectlyAttacked: true
+
+isBio: false
+isBuilding: false
+showOnMinimap: false
+fogOfWarSightRange: 1
+ignoreInUnitCapCalculation: true
+showInEditor: false
+
+[graphics]
+total_frames: 1
+image: ROOT:/shared/NONE.png
+image_wreak: NONE
+image_shadow: NONE
+icon_zoomed_out: ROOT:/shared/NONE.png
+showTransportBar: false
+isVisible: false
+
+[attack]
+canAttack: false
+
+[movement]
+movementType: NONE
+
+[hiddenAction_needFather]
+autoTrigger: if parent==null
+deleteSelf: true
+
+[resource_drone_num]
+hidden: false
+
+[hiddenAction_setFlag24]
+autoTrigger: if parent.hasFlag(id=24) and (not self.hasFlag(id=24))
+addResources: setFlag=24
+
+[hiddenAction_unsetFlag24]
+autoTrigger: if (not parent.hasFlag(id=24)) and self.hasFlag(id=24)
+addResources: unsetFlag=24
+
+[hiddenAction_initDrone]
+autoTriggerOnEvent: created
+addResources: drone_num = ${core.maxTransportingUnits}
+
+[hiddenAction_queueBuildDrone]
+autoTrigger: if self.hasResources(drone_num = 1)
+# need action buildDrone
+alsoQueueAction: buildDrone
+addResources: drone_num = -1
+
+[hiddenAction_drone_back]
+addResources: setFlag=25
+setResourcesWithLogic: drone_num = 0
+
+[action_change2deck_prisma]
+# deck name
+@define dn : deck_prisma
+# deck slot
+@define ds : 3
+pos: 2
+text: 改装为 [
+textAddUnitName: ${dn}
+textPostFix: ]
+description: -此操作将召回所有无人机\n-此操作无法取消
+buildSpeed: 20s
+price: 0
+displayType: action
+isVisible: true
+convertTo: ${dn}
+deleteNumUnitsFromTransport: 9
+setResourcesWithLogic: drone_num = ${ds}
+highPriorityQueue: true
+addResources: unsetFlag=25
+whenBuilding_triggerAction: drone_back
+canPlayerCancel: false
+removeAllQueuedItemsWithoutRefund: true
+
+[action_change2deck_claw]
+@copyFromSection: action_change2deck_prisma
+@define dn : deck_claw
+@define ds : 2
+isVisible: true
+
+[action_change2deck_fighter]
+@copyFromSection: action_change2deck_prisma
+@define dn : deck_fighter
+@define ds : 1
+isVisible: true
+
+[action_change2deck_longsword]
+@copyFromSection: action_change2deck_prisma
+@define dn : deck_longsword
+@define ds : 2
+isVisible: true
+
+[action_change2deck_death]
+@copyFromSection: action_change2deck_prisma
+@define dn : deck_death
+@define ds : 1
+isVisible: true
+
+[action_change2deck_sabre]
+@copyFromSection: action_change2deck_prisma
+@define dn : deck_sabre
+@define ds : 1
+isVisible: true
+
+[action_change2deck_beep]
+@copyFromSection: action_change2deck_prisma
+@define dn : deck_beep
+@define ds : 3
+isVisible: true
